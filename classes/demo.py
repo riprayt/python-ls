@@ -6,6 +6,7 @@ if __name__ == "__main__":
     # print(yusuf.name, yusuf.age)
 
     #print(type(RollingWindow.__dict__['capacity']).__name__)
+    #
 
     abc = RollingWindow(4)
 
