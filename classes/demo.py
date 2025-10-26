@@ -7,6 +7,7 @@ if __name__ == "__main__":
 
     #print(type(RollingWindow.__dict__['capacity']).__name__)
     #
+    #
 
     abc = RollingWindow(4)
 
