@@ -1,6 +1,7 @@
 from functools import wraps
 import time
 
+
 def measure_time(func):
     """Decorator to measure the execution time of a function."""
 
@@ -13,12 +14,14 @@ def measure_time(func):
         return result
     return wrapper
 
+
 @measure_time
 def run_performance_tests():
     total = 0
     for i in range(1, 100000000):
         total += i ** 2
     print(f"Total sum of squares: {total}")
+
 
 if __name__ == "__main__":
     run_performance_tests()

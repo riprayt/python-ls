@@ -1,7 +1,10 @@
-from classes.person import Person
 from classes.RollingWindow import RollingWindow
-
+from .yusuffunc import YusufMat
 from .RollingWindow import measure_time
+
+yadd = YusufMat.yadd
+yprint = YusufMat.yprint
+
 
 @measure_time
 def f1(x, y):
@@ -11,8 +14,7 @@ def f1(x, y):
 if __name__ == "__main__":
     # yusuf = Person("Yusuf Emir", 2003)
     # print(yusuf.name, yusuf.age)
-
-    #print(type(RollingWindow.__dict__['capacity']).__name__)
+    # print(type(RollingWindow.__dict__['capacity']).__name__)
     #
     #
     print(f1(10, 20))
@@ -30,6 +32,7 @@ if __name__ == "__main__":
 
     print(abc.values)
 
-
     abc.push(55)
     print(abc.values)
+
+    yprint(yadd(10, 20))

@@ -1,4 +1,7 @@
-"""Rolling window utilities with optional logging decorators and descriptors."""
+"""Rolling window utilities.
+
+Optional logging decorators and descriptors.
+"""
 
 from __future__ import annotations
 
@@ -24,7 +27,10 @@ def log_calls(func):
 
 
 def measure_time(func):
-    """Return a decorated function that reports execution time in milliseconds."""
+    """Return a decorated function that reports execution time.
+
+    Execution time is reported in milliseconds.
+    """
 
     @wraps(func)
     def wrapper(*args, **kwargs):
@@ -39,14 +45,14 @@ def measure_time(func):
 
 
 class PositiveInt:
-    """Descriptor that ensures a managed attribute stores a strictly positive int."""
+    """Descriptor ensuring managed attribute stores positive int."""
 
     def __set_name__(self, owner, name):
         """Record the private storage name used on instances."""
         self._storage = f"_{name}"
 
     def __get__(self, obj, objtype=None) -> int:
-        """Return the stored value or the descriptor when accessed on the class."""
+        """Return the stored value or the descriptor on the class."""
         if obj is None:
             return self
         return getattr(obj, self._storage)
@@ -70,12 +76,14 @@ class RollingWindow:
     capacity = PositiveInt()
 
     def __init__(self, capacity: int):
-        """Initialize storage arrays and bookkeeping for the requested capacity."""
+        """Initialize storage arrays and bookkeeping for capacity."""
         self.capacity = capacity
         self._data: list[Number] = [0] * self.capacity
         self._head: int = 0
         self._count: int = 0
-        self._summary_cached: Optional[Tuple[float, float, Number, Number]] = None
+        self._summary_cached: Optional[
+            Tuple[float, float, Number, Number]
+        ] = None
 
     def __repr__(self) -> str:
         """Return a helpful string representation for debugging."""
@@ -120,7 +128,7 @@ class RollingWindow:
     @log_calls
     @measure_time
     def push(self, x: Number) -> None:
-        """Insert a value, evicting the oldest element when the window is full."""
+        """Insert a value, evicting oldest element when window is full."""
         tail = (self._head + self._count) % self._capacity
         if self._count < self._capacity:
             self._data[tail] = x
@@ -185,7 +193,7 @@ class RollingWindow:
 
     @property
     def summary(self) -> Tuple[float, float, Number, Number]:
-        """Return ``(mean, std, min, max)`` caching the result until mutation."""
+        """Return (mean, std, min, max) caching result until mutation."""
         if self._summary_cached is not None:
             return self._summary_cached
         if self._count == 0:
@@ -207,7 +215,9 @@ class RollingWindow:
         return self._summary_cached
 
     @classmethod
-    def from_iterable(cls, capacity: int, xs: Iterable[Number]) -> "RollingWindow":
+    def from_iterable(
+        cls, capacity: int, xs: Iterable[Number]
+    ) -> "RollingWindow":
         """Create a populated window by pushing each value from an iterable."""
         rw = cls(capacity)
         rw.extend(xs)
@@ -227,11 +237,16 @@ class RollingWindow:
 
             def __enter__(self_):
                 """Snapshot the current window state and expose the manager."""
-                self_._snapshot = (rw._data[:], rw._head, rw._count, rw._summary_cached)
+                self_._snapshot = (
+                    rw._data[:],
+                    rw._head,
+                    rw._count,
+                    rw._summary_cached,
+                )
                 return self_
 
             def __exit__(self_, exc_type, exc, tb):
-                """Restore the snapshot when an exception escapes the context."""
+                """Restore snapshot on exception."""
                 if exc_type is not None:
                     data, head, count, summary = self_._snapshot
                     rw._data = data[:]

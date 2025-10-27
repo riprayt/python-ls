@@ -15,7 +15,7 @@ def f2(*args, **kwargs) -> None:
 
 if __name__ == "__main__":
     # correct way to call it
-    somefunc(1, y=2)
+    assert somefunc(1, y=2) == None
 
     # incorrect way to call it
     # somefunc(1, 2)  # this will raise a TypeError
