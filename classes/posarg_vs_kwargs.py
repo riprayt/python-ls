@@ -1,6 +1,7 @@
 def somefunc(x: int, *, y: int) -> None:
     print(f"x: {x}, y: {y}")
 
+
 def f2(*args, **kwargs) -> None:
 
     print("args:", args, type(args))
@@ -12,10 +13,9 @@ def f2(*args, **kwargs) -> None:
         print(f"kwarg: {k} = {v}")
 
 
-
 if __name__ == "__main__":
     # correct way to call it
-    assert somefunc(1, y=2) == None
+    somefunc(1, y=2)
 
     # incorrect way to call it
     # somefunc(1, 2)  # this will raise a TypeError

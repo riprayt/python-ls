@@ -1,6 +1,7 @@
 class Person:
     """a simple person class which will be extended later"""
     species = "Human"
+
     def __init__(self, name, birth_year):
         self.name = name
         self.birth_year = birth_year
